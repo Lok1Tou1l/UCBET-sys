@@ -1,0 +1,10 @@
+node_modules/
+.next/
+__pycache__/
+*.pyc
+.venv/
+.env
+*.db
+backend/storage/uploads/*
+!backend/storage/uploads/.gitkeep
+.DS_Store
