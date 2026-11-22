@@ -1,15 +1,15 @@
 from fastapi import FastAPI
-from app.api.v1.endpoints import grades
-from app.db.db import Base, engine
-from app.models import models as _models
-from app.api.v1.endpoints import transcripts
 
-Base.metadata.create_all(engine)
+from app.api.v1.endpoints import auth, grades, transcripts
 
 app = FastAPI(title="SaaS Boilerplate API")
 
-app.include_router(grades.router)
-app.include_router(transcripts.router)
+API_PREFIX = "/api/v1"
+
+app.include_router(auth.router, prefix=API_PREFIX)
+app.include_router(grades.router, prefix=API_PREFIX)
+app.include_router(transcripts.router, prefix=API_PREFIX)
+
 
 @app.get("/health")
 def health():
