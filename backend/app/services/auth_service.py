@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.core.security import create_access_token, hash_password, verify_password
 from app.repositories import user_repository
 
-# hash وهمي لتساوي زمن الرد سواء وُجد المستخدم أم لا
+# Dummy hash so response time is the same whether or not the user exists
 _DUMMY_HASH = hash_password("dummy-password")
 
 

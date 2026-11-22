@@ -5,24 +5,24 @@ from sqlalchemy import engine_from_config, pool
 
 from app.core.config import settings
 from app.db.db import Base
-from app.models import models  # noqa: F401  (يسجّل النماذج في Base.metadata)
+from app.models import models  # noqa: F401  (registers models on Base.metadata)
 
-# كائن إعدادات Alembic (يقرأ alembic.ini)
+# Alembic config object (reads alembic.ini)
 config = context.config
 
-# نأخذ عنوان القاعدة من settings بدل كتابته في alembic.ini
+# Take the database URL from settings instead of hardcoding it in alembic.ini
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL.replace("%", "%%"))
 
-# إعداد السجلات (logging)
+# Logging setup
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# هذه هي الجداول التي سيقارنها autogenerate
+# Tables that autogenerate will compare against
 target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
-    """وضع offline: يكتب SQL دون اتصال فعلي بالقاعدة."""
+    """Offline mode: emit SQL without connecting to the database."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -37,7 +37,7 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
-    """وضع online: يتصل بالقاعدة ويطبّق الهجرات."""
+    """Online mode: connect to the database and apply migrations."""
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
@@ -48,7 +48,7 @@ def run_migrations_online() -> None:
         context.configure(
             connection=connection,
             target_metadata=target_metadata,
-            render_as_batch=True,  # ضروري لـ SQLite (لا يدعم ALTER كاملاً)
+            render_as_batch=True,  # required for SQLite (limited ALTER support)
         )
 
         with context.begin_transaction():

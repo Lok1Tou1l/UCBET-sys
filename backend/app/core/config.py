@@ -3,7 +3,7 @@ from pathlib import Path
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# backend/  (هذا الملف في backend/app/core/config.py)
+# backend/  (this file lives at backend/app/core/config.py)
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 SQLITE_PREFIX = "sqlite:///"
