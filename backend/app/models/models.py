@@ -4,6 +4,7 @@ from sqlalchemy import DateTime, ForeignKey, Numeric, String, Text, UniqueConstr
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db.db import Base # cz db\db.py use same pth in ftr file
 from app.models.user import User  # noqa: F401  (reused for all the code)
+from app.models.audit import AuditLog  # noqa: F401  (registers the model on Base.metadata)
 
 
 # TEMP hmd / Mahzem model  in dev | this is Ahmed and i create my model {user} 

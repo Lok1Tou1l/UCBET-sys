@@ -7,6 +7,7 @@ from app.core.security import decode_access_token, hash_password
 from app.db.db import Base
 from app.models.models import User
 from app.services import auth_service
+from app.models.audit import AuditLog
 
 
 @pytest.fixture
@@ -42,3 +43,16 @@ def test_unknown_user(db):
 def test_inactive_user(db):
     with pytest.raises(auth_service.AuthError):
         auth_service.login(db, "2024002", "pass1234")
+
+def test_login_success_is_audited(db):
+    auth_service.login(db, "2024001", "pass1234")
+    row = db.query(AuditLog).one()
+    assert row.action == "auth.login" and row.actor_id == 1
+
+
+def test_login_failure_is_audited_without_password(db):
+    with pytest.raises(auth_service.AuthError):
+        auth_service.login(db, "2024001", "bad-password")
+    row = db.query(AuditLog).one()
+    assert row.action == "auth.login_failed"
+    assert "bad-password" not in (row.details or "")
