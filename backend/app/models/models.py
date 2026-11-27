@@ -3,13 +3,14 @@ from decimal import Decimal
 from sqlalchemy import DateTime, ForeignKey, Numeric, String, Text, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db.db import Base # cz db\db.py use same pth in ftr file
+from app.models.user import User  # noqa: F401  (reused for all the code)
 
 
-# TEMP hmd / Mahzem model  in dev
-class User(Base):
-    __tablename__ = "users"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(String(120))
+# TEMP hmd / Mahzem model  in dev | this is Ahmed and i create my model {user} 
+# class User(Base):
+#     __tablename__ = "users"
+#     id: Mapped[int] = mapped_column(primary_key=True)
+#     email: Mapped[str] = mapped_column(String(120))
 
 
 class Student(Base):
